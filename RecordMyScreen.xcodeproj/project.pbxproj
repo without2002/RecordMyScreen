@@ -32,7 +32,6 @@
 		382758FC1692565F000D537C /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 382758FA16925657000D537C /* CoreMedia.framework */; };
 		3844BB9B16982DAF00F326C2 /* list.png in Resources */ = {isa = PBXBuildFile; fileRef = 3844BB9916982DAF00F326C2 /* list.png */; };
 		3844BB9C16982DAF00F326C2 /* list@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3844BB9A16982DAF00F326C2 /* list@2x.png */; };
-		384D7C0B16A9F70E00610DA9 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 384D7C0A16A9F70E00610DA9 /* Settings.bundle */; };
 		389BCCFA169010CF00877CA5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 389BCCF9169010CF00877CA5 /* UIKit.framework */; };
 		389BCCFC169010CF00877CA5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 389BCCFB169010CF00877CA5 /* Foundation.framework */; };
 		389BCCFE169010CF00877CA5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 389BCCFD169010CF00877CA5 /* CoreGraphics.framework */; };
@@ -96,7 +95,6 @@
 		382758FA16925657000D537C /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		3844BB9916982DAF00F326C2 /* list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = list.png; sourceTree = "<group>"; };
 		3844BB9A16982DAF00F326C2 /* list@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "list@2x.png"; sourceTree = "<group>"; };
-		384D7C0A16A9F70E00610DA9 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		389BCCF5169010CF00877CA5 /* RecordMyScreen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RecordMyScreen.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		389BCCF9169010CF00877CA5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		389BCCFB169010CF00877CA5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -220,7 +218,6 @@
 		389BCCEA169010CF00877CA5 = {
 			isa = PBXGroup;
 			children = (
-				384D7C0A16A9F70E00610DA9 /* Settings.bundle */,
 				389BCCFF169010CF00877CA5 /* RecordMyScreen */,
 				389BCCF8169010CF00877CA5 /* Frameworks */,
 				389BCCF6169010CF00877CA5 /* Products */,
@@ -409,7 +406,6 @@
 				38114EF11693E52C00BE64B4 /* icon~ipad.png in Resources */,
 				3844BB9B16982DAF00F326C2 /* list.png in Resources */,
 				3844BB9C16982DAF00F326C2 /* list@2x.png in Resources */,
-				384D7C0B16A9F70E00610DA9 /* Settings.bundle in Resources */,
 				38E6ECC116ACB77D000BECC2 /* settings.png in Resources */,
 				38E6ECC216ACB77D000BECC2 /* settings@2x.png in Resources */,
 				3800B59216D5FB8D0034E4B4 /* Credits.plist in Resources */,
