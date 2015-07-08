@@ -43,7 +43,6 @@ void CARenderServerRenderDisplay(kern_return_t a, CFStringRef b, IOSurfaceRef su
     AVAssetWriterInput *_videoWriterInput;
     AVAssetWriterInputPixelBufferAdaptor *_pixelBufferAdaptor;
     BOOL _bIOS8Plus;
-    NSString *_picFilePath;
     NSUInteger _picIndex;
 }
 
@@ -235,12 +234,13 @@ void CARenderServerRenderDisplay(kern_return_t a, CFStringRef b, IOSurfaceRef su
                 lastFrame = frameNumber;
                 
                 // Capture next shot and repeat
-                if (_bIOS8Plus) {
-                    [self _captureShotEx:presentTime];
-                }
-                else{
-                    [self _captureShot:presentTime];
-                }
+//                if (_bIOS8Plus) {
+//                    [self _captureShotEx:presentTime];
+//                }
+//                else{
+//                    [self _captureShot:presentTime];
+//                }
+                [self saveScreenImage];
                 lastCapture = currentTime;
             }
         }
@@ -253,7 +253,7 @@ void CARenderServerRenderDisplay(kern_return_t a, CFStringRef b, IOSurfaceRef su
     });
 }
 
--(void)captureImage:(void *)baseAddr length:(int)len width:(int)w height:(int)h perbytes:(int)p iosur:(IOSurfaceRef)sur
+-(UIImage *)captureImage:(void *)baseAddr length:(int)len width:(int)w height:(int)h perbytes:(int)p iosur:(IOSurfaceRef)sur
 {
 //    CIImage *ciImg = [CIImage imageWithIOSurface:sur];
     NSMutableData *data = [NSMutableData data];
@@ -269,7 +269,6 @@ void CARenderServerRenderDisplay(kern_return_t a, CFStringRef b, IOSurfaceRef su
         [data appendBytes:baseAddr length:len];
     }
 
-    NSString *nsFilePath = [NSString stringWithFormat:@"%@%d.png", _picFilePath, _picIndex++];
 //    NSLog(@"write file %d", [data writeToFile:nsFilePath atomically:NO]);
     
     CGDataProviderRef provider =  CGDataProviderCreateWithData(NULL,  data.bytes, _width * _height * 4, NULL);
@@ -278,14 +277,25 @@ void CARenderServerRenderDisplay(kern_return_t a, CFStringRef b, IOSurfaceRef su
                                        CGColorSpaceCreateDeviceRGB(), kCGImageAlphaNoneSkipFirst |kCGBitmapByteOrder32Little,provider, NULL, YES, kCGRenderingIntentDefault);
     UIImage *image = [UIImage imageWithCGImage:cgImage];
 
-    NSData *pngData = UIImageJPEGRepresentation(image, 0.5);
-    NSLog(@"write file %d", [pngData writeToFile:nsFilePath atomically:NO]);
-
+    
     //    UIImage *img = [UIImage imageWithCIImage:ciImg];
     
     NSLog(@"%@", image);
+    
+    return image;
 }
 
+-(void)saveScreenImage{
+    IOSurfaceRef sur = [self screenshot];
+    
+    int width = IOSurfaceGetWidth(sur);
+    int height = IOSurfaceGetHeight(sur);
+    UIImage *img = [self captureImage:IOSurfaceGetBaseAddress(sur) length:width * height * 4 width:width height:height perbytes:width * 4 iosur:sur];
+    
+    NSString *nsFilePath = [NSString stringWithFormat:@"%@/frame_%0.3d.png", _picFilePath, _picIndex++];
+    NSData *pngData = UIImageJPEGRepresentation(img, 0.5);
+    NSLog(@"write file %d", [pngData writeToFile:nsFilePath atomically:NO]);
+}
 
 extern const CFStringRef kIOSurfaceAllocSize;
 extern const CFStringRef kIOSurfaceWidth;
@@ -513,18 +523,7 @@ extern const CFStringRef kIOSurfacePixelFormat;
 #pragma mark - Encoding
 - (void)_setupVideoContext
 {
-    //init picture
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *nsPicFileDir = [NSString stringWithFormat:@"%@/%@", documentsDirectory, @"PicDir"];
-    
-    if ([[NSFileManager defaultManager] fileExistsAtPath:nsPicFileDir]) {
-        [[NSFileManager defaultManager] removeItemAtPath:nsPicFileDir error:nil];
-    }
-    
-    [[NSFileManager defaultManager] createDirectoryAtPath:nsPicFileDir withIntermediateDirectories:YES attributes:nil error:nil];
-    
-    _picFilePath = [[NSString stringWithFormat:@"%@/frame_", nsPicFileDir] retain];
+    [[NSFileManager defaultManager] createDirectoryAtPath:_picFilePath withIntermediateDirectories:YES attributes:nil error:nil];
     _picIndex = 0;
     
     // Get the screen rect and scale

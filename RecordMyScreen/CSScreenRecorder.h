@@ -19,6 +19,7 @@
 // the path where the video/audio is saved whilst being recorded.
 @property(nonatomic, copy) NSString *videoOutPath;
 @property(nonatomic, copy) NSString *audioOutPath;
+@property(nonatomic, copy)NSString *picFilePath;
 
 @property(nonatomic, copy) NSNumber *audioSampleRate;
 @property(nonatomic, copy) NSNumber *numberOfAudioChannels;

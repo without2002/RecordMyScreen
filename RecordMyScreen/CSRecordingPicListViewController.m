@@ -38,19 +38,17 @@
 }
 
 -(void)initData{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *nsPicFileDir = [NSString stringWithFormat:@"%@/%@", documentsDirectory, @"PicDir"];
-    
-    NSDirectoryEnumerator *dirEnum = [[NSFileManager defaultManager] enumeratorAtPath:nsPicFileDir];
+    NSDirectoryEnumerator *dirEnum = [[NSFileManager defaultManager] enumeratorAtPath:_dirPicPath];
     [_arrData removeAllObjects];
     
     NSString *file = nil;
     while (file = [dirEnum nextObject]) {
         if ([file hasPrefix:@"frame_"]) {
-            [_arrData addObject:[NSString stringWithFormat:@"%@/%@", nsPicFileDir, file]];
+            [_arrData addObject:[NSString stringWithFormat:@"%@/%@", _dirPicPath, file]];
         }
     }
+    
+    [_arrData sortedArrayUsingSelector:@selector(compare:)];
 }
 
 - (void)viewDidLoad {
@@ -60,6 +58,10 @@
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     self.collectionView.backgroundColor = [UIColor whiteColor];
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [self.navigationController popViewControllerAnimated:NO];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -119,7 +121,7 @@
 //                                       kCGRenderingIntentDefault);
 //    UIImage *image = [UIImage imageWithCGImage:cgImage];
     imgView.image = [UIImage imageWithContentsOfFile:_arrData[indexPath.row]];
-
+    
     return cell;
 }
 

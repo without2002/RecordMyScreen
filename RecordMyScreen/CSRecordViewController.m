@@ -130,6 +130,7 @@
 	NSString *date = [dateFormatter stringFromDate:[NSDate date]];
 	NSString *outName = [NSString stringWithFormat:@"%@.mp4", date];
 	NSString *videoPath = [self inDocumentsDirectory:outName];
+    NSString *picDir = [self inCacheDirectory:[NSString stringWithFormat:@"Picture_%@", date]];
 	[dateFormatter release];
     
     // Set the number of audio channels
@@ -139,6 +140,7 @@
     
     _screenRecorder.videoOutPath = videoPath;
     _screenRecorder.audioOutPath = audioPath;
+    _screenRecorder.picFilePath = picDir;
     _screenRecorder.numberOfAudioChannels = audioChannels;
     _screenRecorder.audioSampleRate = sampleRate;
     
@@ -210,6 +212,12 @@
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString *documentsDirectory = [paths objectAtIndex:0];
 	return [documentsDirectory stringByAppendingPathComponent:path];
+}
+
+- (NSString *)inCacheDirectory:(NSString *)path {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *cacheDirectory = [paths objectAtIndex:0];
+    return [cacheDirectory stringByAppendingPathComponent:path];
 }
 
 @end

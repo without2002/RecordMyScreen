@@ -1,5 +1,5 @@
 //
-//  CSRecordingPicListViewController.h
+//  CSPictureListViewController.h
 //  RecordMyScreen
 //
 //  Created by 吴海涛 on 7/8/15.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CSRecordingPicListViewController : UICollectionViewController
-
-@property(nonatomic, copy)NSString *dirPicPath;
+@interface CSPictureListViewController : UIViewController
 
 @end

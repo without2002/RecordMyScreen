@@ -11,6 +11,7 @@
 #import "CSRecordViewController.h"
 #import "CSRecordingListViewController.h"
 #import "CSRecordingPicListViewController.h"
+#import "CSPictureListViewController.h"
 
 @implementation CSAppDelegate
 
@@ -25,24 +26,27 @@
 {
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     // Override point for customization after application launch.
-    UINavigationController *savedNavVC, *picNavVC;
-    UIViewController *recordVC,*savedVC, *picVC;
+    UINavigationController *savedNavVC, *picViewNavVC, *picListNavVC;
+    UIViewController *recordVC,*savedVC, *picViewVC, *picListVC;
    
     recordVC = [[[CSRecordViewController alloc] init] autorelease];
 
-    savedVC = [[[CSRecordingListViewController alloc] init] autorelease];
-    savedNavVC = [[[UINavigationController alloc] initWithRootViewController:savedVC] autorelease];
-    savedNavVC.navigationBar.barStyle = UIBarStyleBlack;
+//    savedVC = [[[CSRecordingListViewController alloc] init] autorelease];
+//    savedNavVC = [[[UINavigationController alloc] initWithRootViewController:savedVC] autorelease];
+//    savedNavVC.navigationBar.barStyle = UIBarStyleBlack;
   
-    UICollectionViewFlowLayout *layout = [[[UICollectionViewFlowLayout alloc] init] autorelease];
-    layout.itemSize = CGSizeMake(([[UIScreen mainScreen] bounds].size.width - 30) / 2, 240);
-    layout.minimumLineSpacing = 15;
-    picVC = [[[CSRecordingPicListViewController alloc] initWithCollectionViewLayout:layout] autorelease];
-    picVC.title = @"Picture";
-    picNavVC = [[[UINavigationController alloc] initWithRootViewController:picVC] autorelease];
+//    UICollectionViewFlowLayout *layout = [[[UICollectionViewFlowLayout alloc] init] autorelease];
+//    layout.itemSize = CGSizeMake(([[UIScreen mainScreen] bounds].size.width - 30) / 2, 240);
+//    layout.minimumLineSpacing = 15;
+//    picViewVC = [[[CSRecordingPicListViewController alloc] initWithCollectionViewLayout:layout] autorelease];
+//    picViewVC.title = @"Picture";
+//    picViewNavVC = [[[UINavigationController alloc] initWithRootViewController:picViewVC] autorelease];
+    
+    picListVC = [[CSPictureListViewController alloc] init];
+    picListNavVC = [[[UINavigationController alloc] initWithRootViewController:picListVC] autorelease];
     
     self.tabBarController = [[[UITabBarController alloc] init] autorelease];
-    self.tabBarController.viewControllers = @[recordVC,savedNavVC, picNavVC];
+    self.tabBarController.viewControllers = @[recordVC, picListNavVC];
     self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];
     return YES;

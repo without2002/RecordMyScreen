@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0D78A8271B4D2C8A007B533E /* CSRecordingPicListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D78A8261B4D2C8A007B533E /* CSRecordingPicListViewController.m */; };
+		0D78A82A1B4D5B1E007B533E /* CSPictureListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D78A8291B4D5B1E007B533E /* CSPictureListViewController.m */; };
 		0DF2AE6A1B4522A900D492DB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 389BCD05169010CF00877CA5 /* main.m */; };
 		0DF2AE881B46660500D492DB /* CoreSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DF2AE871B46660500D492DB /* CoreSurface.framework */; };
 		0DF2AEA21B4A323D00D492DB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0DF2AEA11B4A323D00D492DB /* Images.xcassets */; };
@@ -53,6 +54,8 @@
 /* Begin PBXFileReference section */
 		0D78A8251B4D2C8A007B533E /* CSRecordingPicListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSRecordingPicListViewController.h; sourceTree = "<group>"; };
 		0D78A8261B4D2C8A007B533E /* CSRecordingPicListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSRecordingPicListViewController.m; sourceTree = "<group>"; };
+		0D78A8281B4D5B1E007B533E /* CSPictureListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSPictureListViewController.h; sourceTree = "<group>"; };
+		0D78A8291B4D5B1E007B533E /* CSPictureListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSPictureListViewController.m; sourceTree = "<group>"; };
 		0DF2AE871B46660500D492DB /* CoreSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreSurface.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/PrivateFrameworks/CoreSurface.framework; sourceTree = DEVELOPER_DIR; };
 		0DF2AEA11B4A323D00D492DB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3800B59116D5FB8D0034E4B4 /* Credits.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Credits.plist; sourceTree = "<group>"; };
@@ -209,6 +212,8 @@
 				382758E61690E0EE000D537C /* CSRecordingListViewController.m */,
 				0D78A8251B4D2C8A007B533E /* CSRecordingPicListViewController.h */,
 				0D78A8261B4D2C8A007B533E /* CSRecordingPicListViewController.m */,
+				0D78A8281B4D5B1E007B533E /* CSPictureListViewController.h */,
+				0D78A8291B4D5B1E007B533E /* CSPictureListViewController.m */,
 			);
 			name = CSRecordingListController;
 			sourceTree = "<group>";
@@ -438,6 +443,7 @@
 				389BCD0A169010CF00877CA5 /* CSAppDelegate.m in Sources */,
 				389BCD2E1690113900877CA5 /* CSRecordViewController.m in Sources */,
 				0D78A8271B4D2C8A007B533E /* CSRecordingPicListViewController.m in Sources */,
+				0D78A82A1B4D5B1E007B533E /* CSPictureListViewController.m in Sources */,
 				382758E71690E0EE000D537C /* CSRecordingListViewController.m in Sources */,
 				B1B20AF8170A347900FD881C /* SAResizibleBubble.m in Sources */,
 				B1B20AF9170A347900FD881C /* SASliderLeft.m in Sources */,
