@@ -15,6 +15,8 @@
 #import <CoreImage/CIImage.h>
 #include <sys/time.h>
 
+#define PIC_DIR @"PicDir"
+
 void CARenderServerRenderDisplay(kern_return_t a, CFStringRef b, IOSurfaceRef surface, int x, int y);
 
 @interface CSScreenRecorder ()
@@ -41,6 +43,8 @@ void CARenderServerRenderDisplay(kern_return_t a, CFStringRef b, IOSurfaceRef su
     AVAssetWriterInput *_videoWriterInput;
     AVAssetWriterInputPixelBufferAdaptor *_pixelBufferAdaptor;
     BOOL _bIOS8Plus;
+    NSString *_picFilePath;
+    NSUInteger _picIndex;
 }
 
 - (void)_setupVideoContext;
@@ -64,7 +68,7 @@ void CARenderServerRenderDisplay(kern_return_t a, CFStringRef b, IOSurfaceRef su
         //video queue
         _videoQueue = dispatch_queue_create("video_queue", DISPATCH_QUEUE_SERIAL);
         //frame rate
-        _fps = 24;
+        _fps = 4;
         //encoding kbps
         _kbps = 5000;
         
@@ -104,6 +108,8 @@ void CARenderServerRenderDisplay(kern_return_t a, CFStringRef b, IOSurfaceRef su
     
     [_pixelBufferAdaptor release];
     _pixelBufferAdaptor = nil;
+    
+    [_picFilePath release];
     
     [super dealloc];
 }
@@ -253,17 +259,28 @@ void CARenderServerRenderDisplay(kern_return_t a, CFStringRef b, IOSurfaceRef su
     NSMutableData *data = [NSMutableData data];
     int ext = IOSurfaceGetBytesPerRow(sur) - 4 * IOSurfaceGetWidth(sur);
     void *pIndex = IOSurfaceGetBaseAddress(sur);
-    for (int index = 0; ext && index < IOSurfaceGetHeight(sur); index++) {
-        [data appendBytes:pIndex length:4 * IOSurfaceGetWidth(sur)];
-        pIndex += IOSurfaceGetBytesPerRow(sur);
+    if (ext) {
+        for (int index = 0; index < IOSurfaceGetHeight(sur); index++) {
+            [data appendBytes:pIndex length:4 * IOSurfaceGetWidth(sur)];
+            pIndex += IOSurfaceGetBytesPerRow(sur);
+        }
     }
+    else{
+        [data appendBytes:baseAddr length:len];
+    }
+
+    NSString *nsFilePath = [NSString stringWithFormat:@"%@%d.png", _picFilePath, _picIndex++];
+//    NSLog(@"write file %d", [data writeToFile:nsFilePath atomically:NO]);
     
     CGDataProviderRef provider =  CGDataProviderCreateWithData(NULL,  data.bytes, _width * _height * 4, NULL);
-    CGImageRef cgImage = CGImageCreate(IOSurfaceGetWidth(sur), IOSurfaceGetHeight(sur), 8,
-                                       8*4, 4 * IOSurfaceGetWidth(sur),
+    CGImageRef cgImage = CGImageCreate(_width, _height, 8,
+                                       8*4, 4 * _width,
                                        CGColorSpaceCreateDeviceRGB(), kCGImageAlphaNoneSkipFirst |kCGBitmapByteOrder32Little,provider, NULL, YES, kCGRenderingIntentDefault);
     UIImage *image = [UIImage imageWithCGImage:cgImage];
-    
+
+    NSData *pngData = UIImageJPEGRepresentation(image, 0.5);
+    NSLog(@"write file %d", [pngData writeToFile:nsFilePath atomically:NO]);
+
     //    UIImage *img = [UIImage imageWithCIImage:ciImg];
     
     NSLog(@"%@", image);
@@ -376,8 +393,11 @@ extern const CFStringRef kIOSurfacePixelFormat;
             [_pixelBufferLock lock];
             // Add the new frame to the video
 
+            CVPixelBufferLockBaseAddress(pixelBuffer, 0);
             [_pixelBufferAdaptor appendPixelBuffer:pixelBuffer withPresentationTime:frameTime];
-            
+            [self captureImage:CVPixelBufferGetBaseAddress(pixelBuffer) length:totalBytes width:CVPixelBufferGetWidth(pixelBuffer) height:CVPixelBufferGetHeight(pixelBuffer) perbytes:CVPixelBufferGetBytesPerRow(pixelBuffer) iosur:_surface];
+            CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
+
             // Unlock
             [_pixelBufferLock unlock];
         });
@@ -450,8 +470,11 @@ extern const CFStringRef kIOSurfacePixelFormat;
         [_pixelBufferLock lock];
         // Add the new frame to the video
     
+        CVPixelBufferLockBaseAddress(pixelBuffer, 0);
         [_pixelBufferAdaptor appendPixelBuffer:pixelBuffer withPresentationTime:frameTime];
-    
+        [self captureImage:CVPixelBufferGetBaseAddress(pixelBuffer) length:totalBytes width:CVPixelBufferGetWidth(pixelBuffer) height:CVPixelBufferGetHeight(pixelBuffer) perbytes:CVPixelBufferGetBytesPerRow(pixelBuffer) iosur:sur];
+        CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
+        
         CVPixelBufferRelease(pixelBuffer);
         CFRelease(sur);
         
@@ -490,6 +513,20 @@ extern const CFStringRef kIOSurfacePixelFormat;
 #pragma mark - Encoding
 - (void)_setupVideoContext
 {
+    //init picture
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *nsPicFileDir = [NSString stringWithFormat:@"%@/%@", documentsDirectory, @"PicDir"];
+    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:nsPicFileDir]) {
+        [[NSFileManager defaultManager] removeItemAtPath:nsPicFileDir error:nil];
+    }
+    
+    [[NSFileManager defaultManager] createDirectoryAtPath:nsPicFileDir withIntermediateDirectories:YES attributes:nil error:nil];
+    
+    _picFilePath = [[NSString stringWithFormat:@"%@/frame_", nsPicFileDir] retain];
+    _picIndex = 0;
+    
     // Get the screen rect and scale
     CGRect screenRect = [UIScreen mainScreen].bounds;
     float scale = [UIScreen mainScreen].scale;

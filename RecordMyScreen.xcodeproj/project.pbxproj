@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D78A8271B4D2C8A007B533E /* CSRecordingPicListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D78A8261B4D2C8A007B533E /* CSRecordingPicListViewController.m */; };
 		0DF2AE6A1B4522A900D492DB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 389BCD05169010CF00877CA5 /* main.m */; };
 		0DF2AE881B46660500D492DB /* CoreSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DF2AE871B46660500D492DB /* CoreSurface.framework */; };
 		0DF2AEA21B4A323D00D492DB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0DF2AEA11B4A323D00D492DB /* Images.xcassets */; };
@@ -50,6 +51,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0D78A8251B4D2C8A007B533E /* CSRecordingPicListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSRecordingPicListViewController.h; sourceTree = "<group>"; };
+		0D78A8261B4D2C8A007B533E /* CSRecordingPicListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSRecordingPicListViewController.m; sourceTree = "<group>"; };
 		0DF2AE871B46660500D492DB /* CoreSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreSurface.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/PrivateFrameworks/CoreSurface.framework; sourceTree = DEVELOPER_DIR; };
 		0DF2AEA11B4A323D00D492DB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3800B59116D5FB8D0034E4B4 /* Credits.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Credits.plist; sourceTree = "<group>"; };
@@ -147,13 +150,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3800B56C16D1DAAA0034E4B4 /* CSCreditsViewController */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = CSCreditsViewController;
-			sourceTree = "<group>";
-		};
 		38114EC01692D88A00BE64B4 /* headers */ = {
 			isa = PBXGroup;
 			children = (
@@ -211,6 +207,8 @@
 			children = (
 				382758E51690E0EE000D537C /* CSRecordingListViewController.h */,
 				382758E61690E0EE000D537C /* CSRecordingListViewController.m */,
+				0D78A8251B4D2C8A007B533E /* CSRecordingPicListViewController.h */,
+				0D78A8261B4D2C8A007B533E /* CSRecordingPicListViewController.m */,
 			);
 			name = CSRecordingListController;
 			sourceTree = "<group>";
@@ -255,7 +253,6 @@
 			children = (
 				389BCD2A169010FB00877CA5 /* CSRecordViewController */,
 				382758E41690E0A7000D537C /* CSRecordingListController */,
-				3800B56C16D1DAAA0034E4B4 /* CSCreditsViewController */,
 				389BCD08169010CF00877CA5 /* CSAppDelegate.h */,
 				389BCD09169010CF00877CA5 /* CSAppDelegate.m */,
 				0DF2AEA11B4A323D00D492DB /* Images.xcassets */,
@@ -440,6 +437,7 @@
 				0DF2AE6A1B4522A900D492DB /* main.m in Sources */,
 				389BCD0A169010CF00877CA5 /* CSAppDelegate.m in Sources */,
 				389BCD2E1690113900877CA5 /* CSRecordViewController.m in Sources */,
+				0D78A8271B4D2C8A007B533E /* CSRecordingPicListViewController.m in Sources */,
 				382758E71690E0EE000D537C /* CSRecordingListViewController.m in Sources */,
 				B1B20AF8170A347900FD881C /* SAResizibleBubble.m in Sources */,
 				B1B20AF9170A347900FD881C /* SASliderLeft.m in Sources */,

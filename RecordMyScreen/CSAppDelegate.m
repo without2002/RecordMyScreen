@@ -10,6 +10,7 @@
 #import "CSAppDelegate.h"
 #import "CSRecordViewController.h"
 #import "CSRecordingListViewController.h"
+#import "CSRecordingPicListViewController.h"
 
 @implementation CSAppDelegate
 
@@ -24,8 +25,8 @@
 {
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     // Override point for customization after application launch.
-    UINavigationController *savedNavVC;
-    UIViewController *recordVC,*savedVC;
+    UINavigationController *savedNavVC, *picNavVC;
+    UIViewController *recordVC,*savedVC, *picVC;
    
     recordVC = [[[CSRecordViewController alloc] init] autorelease];
 
@@ -33,8 +34,15 @@
     savedNavVC = [[[UINavigationController alloc] initWithRootViewController:savedVC] autorelease];
     savedNavVC.navigationBar.barStyle = UIBarStyleBlack;
   
+    UICollectionViewFlowLayout *layout = [[[UICollectionViewFlowLayout alloc] init] autorelease];
+    layout.itemSize = CGSizeMake(([[UIScreen mainScreen] bounds].size.width - 30) / 2, 240);
+    layout.minimumLineSpacing = 15;
+    picVC = [[[CSRecordingPicListViewController alloc] initWithCollectionViewLayout:layout] autorelease];
+    picVC.title = @"Picture";
+    picNavVC = [[[UINavigationController alloc] initWithRootViewController:picVC] autorelease];
+    
     self.tabBarController = [[[UITabBarController alloc] init] autorelease];
-    self.tabBarController.viewControllers = @[recordVC,savedNavVC];
+    self.tabBarController.viewControllers = @[recordVC,savedNavVC, picNavVC];
     self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];
     return YES;
@@ -50,6 +58,12 @@
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    // 向系统申请后台执行权限
+    __block UIBackgroundTaskIdentifier bg_task;
+    bg_task = [application beginBackgroundTaskWithExpirationHandler:^{
+        [application endBackgroundTask:bg_task];
+        bg_task = UIBackgroundTaskInvalid;
+    }];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
