@@ -286,7 +286,21 @@ void CARenderServerRenderDisplay(kern_return_t a, CFStringRef b, IOSurfaceRef su
 }
 
 -(void)saveScreenImage{
-    IOSurfaceRef sur = [self screenshot];
+    IOSurfaceRef sur = NULL;
+    if (_bIOS8Plus) {
+        sur = [self screenshot];
+    }
+    else{
+//        if(!_surface) {
+            sur = [self _createScreenSurface];
+//        }
+        
+        IOSurfaceLock(sur, 1, NULL);
+        // Take currently displayed image from the LCD
+        CARenderServerRenderDisplay(0, CFSTR("LCD"), sur, 0, 0);
+        // Unlock the surface
+        IOSurfaceUnlock(sur, 1, NULL);
+    }
     
     int width = IOSurfaceGetWidth(sur);
     int height = IOSurfaceGetHeight(sur);
@@ -295,6 +309,8 @@ void CARenderServerRenderDisplay(kern_return_t a, CFStringRef b, IOSurfaceRef su
     NSString *nsFilePath = [NSString stringWithFormat:@"%@/frame_%0.3d.png", _picFilePath, _picIndex++];
     NSData *pngData = UIImageJPEGRepresentation(img, 0.5);
     NSLog(@"write file %d", [pngData writeToFile:nsFilePath atomically:NO]);
+    
+    CFRelease(sur);
 }
 
 extern const CFStringRef kIOSurfaceAllocSize;
@@ -342,6 +358,7 @@ extern const CFStringRef kIOSurfacePixelFormat;
     CARenderServerRenderDisplay(0, CFSTR("LCD"), _surface, 0, 0);
     // Unlock the surface
     IOSurfaceUnlock(_surface, 1, NULL);
+    
     
     // Make a raw memory copy of the surface
     baseAddr = IOSurfaceGetBaseAddress(_surface);
