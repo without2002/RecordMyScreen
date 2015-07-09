@@ -120,7 +120,7 @@ void CARenderServerRenderDisplay(kern_return_t a, CFStringRef b, IOSurfaceRef su
         [self _setupVideoContext]; // this must be done before _setupVideoAndStartRecording
     _recordStartDate = [[NSDate date] retain];
     
-    [self _setupAudio];
+//    [self _setupAudio];
     [self _setupVideoAndStartRecording];
 }
 
@@ -291,9 +291,7 @@ void CARenderServerRenderDisplay(kern_return_t a, CFStringRef b, IOSurfaceRef su
         sur = [self screenshot];
     }
     else{
-//        if(!_surface) {
-            sur = [self _createScreenSurface];
-//        }
+        sur = [self _createScreenSurface];
         
         IOSurfaceLock(sur, 1, NULL);
         // Take currently displayed image from the LCD
