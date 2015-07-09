@@ -302,15 +302,18 @@ void CARenderServerRenderDisplay(kern_return_t a, CFStringRef b, IOSurfaceRef su
         IOSurfaceUnlock(sur, 1, NULL);
     }
     
-    int width = IOSurfaceGetWidth(sur);
-    int height = IOSurfaceGetHeight(sur);
-    UIImage *img = [self captureImage:IOSurfaceGetBaseAddress(sur) length:width * height * 4 width:width height:height perbytes:width * 4 iosur:sur];
+    dispatch_async(_videoQueue, ^{
+        int width = IOSurfaceGetWidth(sur);
+        int height = IOSurfaceGetHeight(sur);
+        UIImage *img = [self captureImage:IOSurfaceGetBaseAddress(sur) length:width * height * 4 width:width height:height perbytes:width * 4 iosur:sur];
+        
+        NSString *nsFilePath = [NSString stringWithFormat:@"%@/frame_%0.3d.png", _picFilePath, _picIndex++];
+        NSData *pngData = UIImageJPEGRepresentation(img, 0.5);
+        NSLog(@"write file %d", [pngData writeToFile:nsFilePath atomically:NO]);
+        
+        CFRelease(sur);
+    });
     
-    NSString *nsFilePath = [NSString stringWithFormat:@"%@/frame_%0.3d.png", _picFilePath, _picIndex++];
-    NSData *pngData = UIImageJPEGRepresentation(img, 0.5);
-    NSLog(@"write file %d", [pngData writeToFile:nsFilePath atomically:NO]);
-    
-    CFRelease(sur);
 }
 
 extern const CFStringRef kIOSurfaceAllocSize;
