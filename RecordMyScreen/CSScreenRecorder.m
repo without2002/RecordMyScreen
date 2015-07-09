@@ -68,7 +68,7 @@ void CARenderServerRenderDisplay(kern_return_t a, CFStringRef b, IOSurfaceRef su
         //video queue
         _videoQueue = dispatch_queue_create("video_queue", DISPATCH_QUEUE_SERIAL);
         //frame rate
-        _fps = 4;
+        _fps = 24;
         //encoding kbps
         _kbps = 5000;
         
@@ -393,10 +393,10 @@ extern const CFStringRef kIOSurfacePixelFormat;
             [_pixelBufferLock lock];
             // Add the new frame to the video
 
-            CVPixelBufferLockBaseAddress(pixelBuffer, 0);
+//            CVPixelBufferLockBaseAddress(pixelBuffer, 0);
             [_pixelBufferAdaptor appendPixelBuffer:pixelBuffer withPresentationTime:frameTime];
-            [self captureImage:CVPixelBufferGetBaseAddress(pixelBuffer) length:totalBytes width:CVPixelBufferGetWidth(pixelBuffer) height:CVPixelBufferGetHeight(pixelBuffer) perbytes:CVPixelBufferGetBytesPerRow(pixelBuffer) iosur:_surface];
-            CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
+//            [self captureImage:CVPixelBufferGetBaseAddress(pixelBuffer) length:totalBytes width:CVPixelBufferGetWidth(pixelBuffer) height:CVPixelBufferGetHeight(pixelBuffer) perbytes:CVPixelBufferGetBytesPerRow(pixelBuffer) iosur:_surface];
+//            CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
 
             // Unlock
             [_pixelBufferLock unlock];
@@ -470,10 +470,10 @@ extern const CFStringRef kIOSurfacePixelFormat;
         [_pixelBufferLock lock];
         // Add the new frame to the video
     
-        CVPixelBufferLockBaseAddress(pixelBuffer, 0);
+//        CVPixelBufferLockBaseAddress(pixelBuffer, 0);
         [_pixelBufferAdaptor appendPixelBuffer:pixelBuffer withPresentationTime:frameTime];
-        [self captureImage:CVPixelBufferGetBaseAddress(pixelBuffer) length:totalBytes width:CVPixelBufferGetWidth(pixelBuffer) height:CVPixelBufferGetHeight(pixelBuffer) perbytes:CVPixelBufferGetBytesPerRow(pixelBuffer) iosur:sur];
-        CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
+//        [self captureImage:CVPixelBufferGetBaseAddress(pixelBuffer) length:totalBytes width:CVPixelBufferGetWidth(pixelBuffer) height:CVPixelBufferGetHeight(pixelBuffer) perbytes:CVPixelBufferGetBytesPerRow(pixelBuffer) iosur:sur];
+//        CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
         
         CVPixelBufferRelease(pixelBuffer);
         CFRelease(sur);
